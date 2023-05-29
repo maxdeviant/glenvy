@@ -1,7 +1,7 @@
-# glenv
+# glenvy
 
-[![Package Version](https://img.shields.io/hexpm/v/glenv)](https://hex.pm/packages/glenv)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glenv/)
+[![Package Version](https://img.shields.io/hexpm/v/glenvy)](https://hex.pm/packages/glenvy)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glenvy/)
 
 A Gleam project
 
@@ -18,7 +18,7 @@ gleam shell # Run an Erlang shell
 If available on Hex this package can be added to your Gleam project:
 
 ```sh
-gleam add glenv
+gleam add glenvy
 ```
 
-and its documentation can be found at <https://hexdocs.pm/glenv>.
+and its documentation can be found at <https://hexdocs.pm/glenvy>.
