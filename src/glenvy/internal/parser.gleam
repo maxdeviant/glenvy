@@ -2,10 +2,11 @@ import gleam/list
 import gleam/map.{Map}
 import gleam/result.{try}
 import gleam/string
+import glenvy/internal/string as stringx
 
 /// Parses a `.env` file into its contained environment variables.
 pub fn parse_env_file(contents: String) -> Map(String, String) {
-  let lines = lines(contents)
+  let lines = stringx.lines(contents)
 
   let env_vars =
     lines
@@ -29,6 +30,8 @@ fn parse_line(line: String) -> Result(#(String, String), Nil) {
   let value =
     value
     |> string.trim
+    |> unquote(quote: "'")
+    |> unquote(quote: "\"")
 
   Ok(#(key, value))
 }
@@ -55,8 +58,9 @@ fn strip_comments(line: String) -> Result(String, Nil) {
   }
 }
 
-/// Returns the lines contained in the given string.
-fn lines(value: String) -> List(String) {
-  value
-  |> string.split(on: "\n")
+/// Unquotes the given string using the specified quote character.
+fn unquote(line: String, quote quote_char: String) -> String {
+  line
+  |> stringx.trim_chars_left(quote_char)
+  |> stringx.trim_chars_right(quote_char)
 }
