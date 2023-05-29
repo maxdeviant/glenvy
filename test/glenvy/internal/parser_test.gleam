@@ -1,6 +1,6 @@
 import gleam/map
 import gleeunit/should
-import glenvy/parser
+import glenvy/internal/parser
 
 pub fn parser_simple_key_value_pair_test() {
   let env_file =

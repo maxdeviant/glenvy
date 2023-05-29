@@ -3,7 +3,7 @@ import gleam/erlang/os
 import gleam/list
 import gleam/map
 import gleam/result.{try}
-import glenvy/parser
+import glenvy/internal/parser
 
 /// Loads a `.env` file.
 pub fn load() -> Result(Nil, file.Reason) {
