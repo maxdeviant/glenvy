@@ -11,6 +11,7 @@ description = "A Gleam project"
 
 [dependencies]
 gleam_stdlib = "~> 0.29"
+gleam_erlang = "~> 0.19"
 
 [dev-dependencies]
 gleeunit = "~> 0.10"
