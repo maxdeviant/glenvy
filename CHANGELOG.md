@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2023-05-29
+
 - Initial release.
 
-[unreleased]: https://github.com/maxdeviant/glenvy/compare/c28c7de...HEAD
+[unreleased]: https://github.com/maxdeviant/glenvy/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/maxdeviant/glenvy/compare/c28c7de...v0.1.0
