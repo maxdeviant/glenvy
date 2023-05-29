@@ -3,11 +3,17 @@ import gleam/erlang/os
 import gleam/list
 import gleam/map
 import gleam/result.{try}
+import glenvy/error.{Error}
 import glenvy/internal/parser
 
-/// Loads a `.env` file.
-pub fn load() -> Result(Nil, file.Reason) {
-  use env_file <- try(find())
+/// Loads the `.env` file.
+pub fn load() -> Result(Nil, Error) {
+  load_from(".env")
+}
+
+/// Loads the file at the specified path as a `.env` file.
+pub fn load_from(path filepath: String) -> Result(Nil, Error) {
+  use env_file <- try(find(filepath))
 
   let env_vars =
     env_file
@@ -24,8 +30,11 @@ pub fn load() -> Result(Nil, file.Reason) {
   Ok(Nil)
 }
 
-fn find() -> Result(String, file.Reason) {
-  use contents <- try(file.read(".env"))
+fn find(filepath: String) -> Result(String, Error) {
+  use contents <- try(
+    file.read(filepath)
+    |> result.map_error(error.Io),
+  )
 
   Ok(contents)
 }
