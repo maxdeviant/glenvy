@@ -1,6 +1,6 @@
 name = "glenvy"
 version = "0.1.0"
-description = "🏞️ A pleasant way to interact with your environment."
+description = "A pleasant way to interact with your environment."
 licences = ["MIT"]
 repository = { type = "github", user = "maxdeviant", repo = "glenvy" }
 
