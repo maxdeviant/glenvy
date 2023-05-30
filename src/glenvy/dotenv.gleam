@@ -1,3 +1,5 @@
+//// Support for `.env` files.
+
 import gleam/erlang/file
 import gleam/erlang/os
 import gleam/list

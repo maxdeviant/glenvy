@@ -1,3 +1,5 @@
+//// Strongly-typed access to environment variables.
+
 import gleam/erlang/os
 import gleam/float
 import gleam/int

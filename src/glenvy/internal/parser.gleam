@@ -1,3 +1,5 @@
+//// A `.env` file parser.
+
 import gleam/list
 import gleam/map.{Map}
 import gleam/result.{try}
