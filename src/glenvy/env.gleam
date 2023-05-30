@@ -6,29 +6,40 @@ import gleam/string
 import gleam/int
 import gleam/result.{try}
 
-/// Returns the value for the environment variable with the given name.
-pub fn get(name: String) -> Result(String, Nil) {
+/// Returns the value for the environment variable with the given name as a `String`.
+pub fn get_string(name: String) -> Result(String, Nil) {
   os.get_env(name)
+}
+
+/// Returns the value for the environment variable with the given name.
+///
+/// Uses the provided `parser` to parse the value.
+///
+/// Returns `Error(Nil)` if the provided `parser` returns `Error(Nil)`.
+pub fn get(
+  name: String,
+  parser parse: fn(String) -> Result(a, Nil),
+) -> Result(a, Nil) {
+  use value <- try(get_string(name))
+
+  value
+  |> parse
 }
 
 /// Returns the value for the environment variable with the given name as an `Int`.
 ///
 /// Returns `Error(Nil)` if the environment variable cannot be parsed as an `Int`.
 pub fn get_int(name: String) -> Result(Int, Nil) {
-  use value <- try(get(name))
-
-  value
-  |> int.parse
+  name
+  |> get(parser: int.parse)
 }
 
 /// Returns the value for the environment variable with the given name as a `Float`.
 ///
 /// Returns `Error(Nil)` if the environment variable cannot be parsed as a `Float`.
 pub fn get_float(name: String) -> Result(Float, Nil) {
-  use value <- try(get(name))
-
-  value
-  |> float.parse
+  name
+  |> get(parser: float.parse)
 }
 
 /// Returns the value for the environment variable with the given name as a `Bool`.
@@ -51,10 +62,9 @@ pub fn get_float(name: String) -> Result(Float, Nil) {
 ///
 /// Returns `Error(Nil)` if the environment variable cannot be parsed as a `Bool`.
 ///
-/// See `get_bool_from` if you want to use your own parser.
+/// Use `get` if you want to provide your own parser.
 pub fn get_bool(name: String) -> Result(Bool, Nil) {
-  name
-  |> get_bool_from(parser: fn(value) {
+  let parse_bool = fn(value) {
     let value =
       value
       |> string.lowercase
@@ -64,20 +74,8 @@ pub fn get_bool(name: String) -> Result(Bool, Nil) {
       "false" | "f" | "no" | "n" | "0" -> Ok(False)
       _ -> Error(Nil)
     }
-  })
-}
+  }
 
-/// Returns the value for the environment variable with the given name as a `Bool`.
-///
-/// Uses the provided `parser` to parse the `Bool`.
-///
-/// Returns `Error(Nil)` if the provided `parser` returns `Error(Nil)`.
-pub fn get_bool_from(
-  name: String,
-  parser parse: fn(String) -> Result(Bool, Nil),
-) {
-  use value <- try(get(name))
-
-  value
-  |> parse
+  name
+  |> get(parser: parse_bool)
 }

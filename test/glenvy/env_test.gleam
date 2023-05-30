@@ -3,16 +3,16 @@ import gleam/list
 import gleeunit/should
 import glenvy/env
 
-pub fn env_get_test() {
+pub fn env_get_string_test() {
   os.set_env("A_STRING", "hello, world")
 
-  env.get("A_STRING")
+  env.get_string("A_STRING")
   |> should.be_ok
   |> should.equal("hello, world")
 }
 
-pub fn env_get_with_nonexistent_value_test() {
-  env.get("DOES_NOT_EXIST")
+pub fn env_get_string_with_nonexistent_value_test() {
+  env.get_string("DOES_NOT_EXIST")
   |> should.be_error
   |> should.equal(Nil)
 }
@@ -118,26 +118,38 @@ pub fn env_get_bool_with_nonexistent_value_test() {
   |> should.equal(Nil)
 }
 
-pub fn env_get_bool_from_with_parser_returning_true_test() {
+type ApiKey {
+  ApiKey(String)
+}
+
+pub fn env_get_with_parser_returning_custom_type_test() {
+  os.set_env("API_KEY", "secret_1234")
+
+  env.get("API_KEY", parser: fn(value) { Ok(ApiKey(value)) })
+  |> should.be_ok
+  |> should.equal(ApiKey("secret_1234"))
+}
+
+pub fn env_get_with_parser_returning_true_test() {
   os.set_env("A_BOOL", "any value")
 
-  env.get_bool_from("A_BOOL", parser: fn(value) { Ok(value == "any value") })
+  env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
   |> should.be_ok
   |> should.equal(True)
 }
 
-pub fn env_get_bool_from_with_parser_returning_false_test() {
+pub fn env_get_with_parser_returning_false_test() {
   os.set_env("A_BOOL", "another value")
 
-  env.get_bool_from("A_BOOL", parser: fn(value) { Ok(value == "any value") })
+  env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
   |> should.be_ok
   |> should.equal(False)
 }
 
-pub fn env_get_bool_from_with_nonexistent_value_test() {
+pub fn env_get_with_nonexistent_value_test() {
   let always_true = fn(_value) { Ok(True) }
 
-  env.get_bool_from("DOES_NOT_EXIST", parser: always_true)
+  env.get("DOES_NOT_EXIST", parser: always_true)
   |> should.be_error
   |> should.equal(Nil)
 }

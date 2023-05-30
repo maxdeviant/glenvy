@@ -10,7 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `glenvy/env`
-  - Added `get_bool` and `get_bool_from` for reading `Bool`s from environment variables.
+  - Added `get_string` for reading environment variables as `String`s.
+  - Added `get_bool` for reading environment variables as `Bool`s.
+
+### Changed
+
+- `glenvy/env`
+  - `get` is now a generic function that accepts a parser. Use `get_string` if you want access to the environment variable value as a `String`.
 
 ## [0.2.0] - 2023-05-30
 
