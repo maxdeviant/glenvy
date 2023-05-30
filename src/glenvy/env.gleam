@@ -1,10 +1,10 @@
 //// Strongly-typed access to environment variables.
 
-import gleam/erlang/os
 import gleam/float
-import gleam/string
 import gleam/int
 import gleam/result.{try}
+import gleam/string
+import glenvy/internal/os
 
 /// Returns the value for the environment variable with the given name as a `String`.
 pub fn get_string(name: String) -> Result(String, Nil) {
