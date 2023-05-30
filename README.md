@@ -16,8 +16,8 @@ gleam add glenvy
 ```gleam
 import gleam/io
 import gleam/result.{try}
-import glenvy/env
 import glenvy/dotenv
+import glenvy/env
 
 pub fn main() {
   let _ = dotenv.load()
