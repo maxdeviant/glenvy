@@ -2,7 +2,8 @@ import gleam/list
 import gleam/map.{Map}
 import gleam/result.{try}
 import gleam/string
-import glenvy/internal/string as stringx
+import glx/string as stringx
+import glenvy/internal/string as glenvy_string
 
 /// Parses a `.env` file into its contained environment variables.
 pub fn parse_env_file(contents: String) -> Map(String, String) {
@@ -61,6 +62,6 @@ fn strip_comments(line: String) -> Result(String, Nil) {
 /// Unquotes the given string using the specified quote character.
 fn unquote(line: String, quote quote_char: String) -> String {
   line
-  |> stringx.trim_chars_left(quote_char)
-  |> stringx.trim_chars_right(quote_char)
+  |> glenvy_string.trim_chars_left(quote_char)
+  |> glenvy_string.trim_chars_right(quote_char)
 }

@@ -1,15 +1,6 @@
 //// Extensions to `gleam/string`.
 
-import gleam/regex
 import gleam/string
-
-/// Returns the lines contained in the given string.
-pub fn lines(value: String) -> List(String) {
-  let assert Ok(newline_regex) = regex.from_string("\r?\n")
-
-  value
-  |> regex.split(with: newline_regex)
-}
 
 /// Returns the given string after trimming the indicated characters from the left. 
 pub fn trim_chars_left(value: String, trim chars_to_trim: String) -> String {
