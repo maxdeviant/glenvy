@@ -14,15 +14,15 @@ gleam add glenvy
 ## Usage
 
 ```gleam
-import gleam/erlang/os
 import gleam/io
 import gleam/result.{try}
+import glenvy/env
 import glenvy/dotenv
 
 pub fn main() {
   let _ = dotenv.load()
 
-  use hello <- try(os.get_env("HELLO"))
+  use hello <- try(env.get_string("HELLO"))
 
   io.println("HELLO=" <> hello)
 
