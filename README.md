@@ -8,7 +8,7 @@
 ## Installation
 
 ```sh
-gleam add glenvy --dev
+gleam add glenvy
 ```
 
 ## Usage
