@@ -9,10 +9,22 @@ fn reset_env(keys: List(String)) {
   |> list.each(os.unset_env(_))
 }
 
-pub fn dotenv_nonexistent_file_test() {
-  dotenv.load_from(path: "definitely_does_not_exist.env")
-  |> should.be_error
-  |> should.equal(error.Io(Nil))
+if erlang {
+  pub fn dotenv_nonexistent_file_test() {
+    dotenv.load_from(path: "definitely_does_not_exist.env")
+    |> should.be_error
+    |> should.equal(error.Io("Enoent"))
+  }
+}
+
+if javascript {
+  pub fn dotenv_nonexistent_file_test() {
+    dotenv.load_from(path: "definitely_does_not_exist.env")
+    |> should.be_error
+    |> should.equal(error.Io(
+      "ENOENT: no such file or directory, open 'definitely_does_not_exist.env'",
+    ))
+  }
 }
 
 pub fn dotenv_simple_env_test() {

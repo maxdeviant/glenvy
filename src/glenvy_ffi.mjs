@@ -26,7 +26,7 @@ export function unset_env(name) {
 export function read_file(path) {
   try {
     return new Ok(readFileSync(path, "utf-8"));
-  } catch {
-    return new Error(Nil);
+  } catch (error) {
+    return new Error(error.message || "");
   }
 }
