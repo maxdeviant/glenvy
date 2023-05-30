@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2023-05-30
+
 ### Added
 
 - Added support for JavaScript targets.
@@ -38,7 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://github.com/maxdeviant/glenvy/compare/v0.3.0...HEAD
+[unreleased]: https://github.com/maxdeviant/glenvy/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/maxdeviant/glenvy/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/maxdeviant/glenvy/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/maxdeviant/glenvy/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/maxdeviant/glenvy/compare/c28c7de...v0.1.0
