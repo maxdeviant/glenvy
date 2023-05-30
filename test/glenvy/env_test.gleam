@@ -1,7 +1,7 @@
-import gleam/erlang/os
 import gleam/list
 import gleeunit/should
 import glenvy/env
+import glenvy/internal/os
 
 pub fn env_get_string_test() {
   os.set_env("A_STRING", "hello, world")
