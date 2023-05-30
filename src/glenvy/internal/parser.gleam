@@ -2,8 +2,8 @@ import gleam/list
 import gleam/map.{Map}
 import gleam/result.{try}
 import gleam/string
-import glx/string as stringx
 import glenvy/internal/string as glenvy_string
+import glx/stringx
 
 /// Parses a `.env` file into its contained environment variables.
 pub fn parse_env_file(contents: String) -> Map(String, String) {
