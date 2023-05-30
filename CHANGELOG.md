@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `glenvy/env` for reading strongly-typed environment variables.
+
 ## [0.1.0] - 2023-05-29
 
 - Initial release.
