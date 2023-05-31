@@ -72,3 +72,20 @@ DOUBLE_QUOTE=\"2\"
     Token(Span(2, 17, 3, 1), "\n", Newline),
   ])
 }
+
+pub fn lexer_tokenize_export_as_key_test() {
+  let env_file =
+    "
+export=\"export as key\"
+    "
+    |> string.trim_left
+
+  lexer.tokenize(env_file)
+  |> should.be_ok
+  |> should.equal([
+    Token(Span(1, 1, 1, 7), "export", Key("export")),
+    Token(Span(1, 7, 1, 8), "=", Equal),
+    Token(Span(1, 8, 1, 23), "\"export as key\"", Value("export as key")),
+    Token(Span(1, 23, 2, 1), "\n", Newline),
+  ])
+}
