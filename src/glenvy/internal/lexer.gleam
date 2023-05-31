@@ -1,6 +1,8 @@
+//// A `.env` file lexer.
+
 import gleam/function
 import gleam/set
-import nibble/lexer
+import nibble/lexer.{Lexer}
 
 pub type Token {
   Equal
@@ -9,7 +11,7 @@ pub type Token {
   Value(String)
 }
 
-fn lexer() {
+fn lexer() -> Lexer(Token, Nil) {
   let keywords = set.new()
 
   lexer.simple([
@@ -29,6 +31,7 @@ fn lexer() {
   ])
 }
 
-pub fn tokenize(input: String) {
+/// Tokenizes the input into a list of `Token`s.
+pub fn tokenize(input: String) -> Result(List(lexer.Token(Token)), lexer.Error) {
   lexer.run(input, lexer())
 }
