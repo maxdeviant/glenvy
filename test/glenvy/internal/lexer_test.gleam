@@ -89,3 +89,43 @@ export=\"export as key\"
     Token(Span(1, 23, 2, 1), "\n", Newline),
   ])
 }
+
+pub fn lexer_tokenize_export_test() {
+  let env_file =
+    "
+export   SHELL_LOVER=1
+    "
+    |> string.trim_left
+
+  lexer.tokenize(env_file)
+  |> should.be_ok
+  |> should.equal([
+    Token(Span(1, 1, 1, 7), "export", Export),
+    Token(Span(1, 10, 1, 21), "SHELL_LOVER", Key("SHELL_LOVER")),
+    Token(Span(1, 21, 1, 22), "=", Equal),
+    Token(Span(1, 22, 1, 23), "1", Value("1")),
+    Token(Span(1, 23, 2, 1), "\n", Newline),
+  ])
+}
+
+pub fn lexer_tokenize_exported_export_as_key_test() {
+  let env_file =
+    "
+export export='exported export as key'
+    "
+    |> string.trim_left
+
+  lexer.tokenize(env_file)
+  |> should.be_ok
+  |> should.equal([
+    Token(Span(1, 1, 1, 7), "export", Export),
+    Token(Span(1, 8, 1, 14), "export", Export),
+    Token(Span(1, 14, 1, 15), "=", Equal),
+    Token(
+      Span(1, 15, 1, 39),
+      "'exported export as key'",
+      Value("exported export as key"),
+    ),
+    Token(Span(1, 39, 2, 1), "\n", Newline),
+  ])
+}

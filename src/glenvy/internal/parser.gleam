@@ -41,7 +41,7 @@ fn env_file_parser() -> Parser(Map(String, String), TokenKind, a) {
 fn line_parser(
   env_vars: Map(String, String),
 ) -> Parser(Map(String, String), TokenKind, a) {
-  use key <- do(key_parser())
+  use key <- do(exported_key_parser())
   use _ <- do(nibble.token(lexer.Equal))
   use value <- do(value_parser())
   use _ <- do(nibble.one_of([nibble.token(lexer.Newline), nibble.eof()]))
@@ -51,6 +51,33 @@ fn line_parser(
   |> return
 }
 
+/// Parses a key that is optionally preceeded by an `export`.
+///
+/// ```sh
+/// export KEY=value
+/// ^^^^^^^^^^
+/// ```
+fn exported_key_parser() {
+  use export <- do(nibble.optional(nibble.token(lexer.Export)))
+
+  case export {
+    Some(_) ->
+      // If we found an `export` then ignore it and try to parse a key.
+      key_parser()
+      // If we don't find a key, use `export` as the key.
+      |> nibble.or("export")
+
+    // If we didn't find an `export` then try to parse the key as usual.
+    None -> key_parser()
+  }
+}
+
+/// Parses a key.
+///
+/// ```sh
+/// KEY=value
+/// ^^^
+/// ```
 fn key_parser() -> Parser(String, TokenKind, a) {
   use token <- nibble.take_map("KEY")
 
@@ -62,6 +89,12 @@ fn key_parser() -> Parser(String, TokenKind, a) {
   }
 }
 
+/// Parses a value.
+///
+/// ```sh
+/// KEY=value
+///     ^^^^^
+/// ```
 fn value_parser() -> Parser(String, TokenKind, a) {
   use token <- nibble.take_map("VALUE")
 
