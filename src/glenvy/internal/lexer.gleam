@@ -6,9 +6,17 @@ import nibble/lexer.{Lexer, Token}
 
 pub type TokenKind {
   Equal
+
+  /// A system-agnostic newline.
+  ///
+  /// Could be a LF or a CRLF.
   Newline
+
+  // Literals.
   Key(String)
   Value(String)
+
+  // Keywords
   Export
 }
 
