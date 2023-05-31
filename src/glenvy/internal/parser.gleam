@@ -56,6 +56,8 @@ fn key_parser() -> Parser(String, Token, a) {
 
   case token {
     lexer.Key(key) -> Some(key)
+    // `export` can be used as a key.
+    lexer.Export -> Some("export")
     _ -> None
   }
 }
