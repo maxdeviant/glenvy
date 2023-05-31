@@ -3,7 +3,7 @@
 import gleam/map.{Map}
 import gleam/option.{None, Some}
 import gleam/result.{try}
-import glenvy/internal/lexer.{Token}
+import glenvy/internal/lexer.{TokenKind}
 import nibble.{Break, Continue, Parser, do, return}
 
 /// Parses a `.env` file into its contained environment variables.
@@ -24,7 +24,7 @@ fn try_parse_env_file(contents: String) -> Result(Map(String, String), Nil) {
   |> result.nil_error
 }
 
-fn env_file_parser() -> Parser(Map(String, String), Token, a) {
+fn env_file_parser() -> Parser(Map(String, String), TokenKind, a) {
   use env_vars <- nibble.loop(map.new())
 
   nibble.one_of([
@@ -40,7 +40,7 @@ fn env_file_parser() -> Parser(Map(String, String), Token, a) {
 /// Parses a single line from a `.env` file.
 fn line_parser(
   env_vars: Map(String, String),
-) -> Parser(Map(String, String), Token, a) {
+) -> Parser(Map(String, String), TokenKind, a) {
   use key <- do(key_parser())
   use _ <- do(nibble.token(lexer.Equal))
   use value <- do(value_parser())
@@ -51,7 +51,7 @@ fn line_parser(
   |> return
 }
 
-fn key_parser() -> Parser(String, Token, a) {
+fn key_parser() -> Parser(String, TokenKind, a) {
   use token <- nibble.take_map("KEY")
 
   case token {
@@ -62,7 +62,7 @@ fn key_parser() -> Parser(String, Token, a) {
   }
 }
 
-fn value_parser() -> Parser(String, Token, a) {
+fn value_parser() -> Parser(String, TokenKind, a) {
   use token <- nibble.take_map("VALUE")
 
   case token {

@@ -2,9 +2,9 @@
 
 import gleam/function
 import gleam/set
-import nibble/lexer.{Lexer}
+import nibble/lexer.{Lexer, Token}
 
-pub type Token {
+pub type TokenKind {
   Equal
   Newline
   Key(String)
@@ -12,7 +12,7 @@ pub type Token {
   Export
 }
 
-fn lexer() -> Lexer(Token, Nil) {
+fn lexer() -> Lexer(TokenKind, Nil) {
   let keywords = set.from_list(["export"])
 
   lexer.simple([
@@ -39,6 +39,6 @@ fn lexer() -> Lexer(Token, Nil) {
 }
 
 /// Tokenizes the input into a list of `Token`s.
-pub fn tokenize(input: String) -> Result(List(lexer.Token(Token)), lexer.Error) {
+pub fn tokenize(input: String) -> Result(List(Token(TokenKind)), lexer.Error) {
   lexer.run(input, lexer())
 }
