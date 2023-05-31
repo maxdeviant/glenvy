@@ -16,7 +16,7 @@ pub type TokenKind {
   Key(String)
   Value(String)
 
-  // Keywords
+  // Keywords.
   Export
 }
 
