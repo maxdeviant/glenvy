@@ -1,69 +1,106 @@
 //// A `.env` file parser.
 
-import gleam/list
 import gleam/map.{Map}
+import gleam/option.{None, Some}
 import gleam/result.{try}
-import gleam/string
-import glenvy/internal/string as glenvy_string
-import glx/stringx
+import glenvy/internal/lexer.{TokenKind}
+import nibble.{Break, Continue, Parser, do, return}
 
 /// Parses a `.env` file into its contained environment variables.
 pub fn parse_env_file(contents: String) -> Map(String, String) {
-  let lines = stringx.lines(contents)
-
-  let env_vars =
-    lines
-    |> list.filter_map(parse_line)
-    |> map.from_list
-
-  env_vars
+  contents
+  |> try_parse_env_file
+  |> result.unwrap(map.new())
 }
 
-/// Parses a single line from a `.env` file into the key and the value.
-fn parse_line(line: String) -> Result(#(String, String), Nil) {
-  use line <- try(skip_line_comment(line))
-
-  use #(key, value) <- try(
-    line
-    |> string.split_once(on: "="),
+fn try_parse_env_file(contents: String) -> Result(Map(String, String), Nil) {
+  use tokens <- try(
+    lexer.tokenize(contents)
+    |> result.nil_error,
   )
 
-  use value <- try(strip_comments(value))
-
-  let value =
-    value
-    |> string.trim
-    |> unquote(quote: "'")
-    |> unquote(quote: "\"")
-
-  Ok(#(key, value))
+  tokens
+  |> nibble.run(env_file_parser())
+  |> result.nil_error
 }
 
-/// Skips a line that starts with a comment.
-fn skip_line_comment(line: String) -> Result(String, Nil) {
-  case
-    line
-    |> string.starts_with("#")
-  {
-    False -> Ok(line)
-    True -> Error(Nil)
+fn env_file_parser() -> Parser(Map(String, String), TokenKind, a) {
+  use env_vars <- nibble.loop(map.new())
+
+  nibble.one_of([
+    line_parser(env_vars)
+    |> nibble.map(Continue),
+    nibble.many1(nibble.token(lexer.Newline))
+    |> nibble.replace(Continue(env_vars)),
+    nibble.eof()
+    |> nibble.replace(Break(env_vars)),
+  ])
+}
+
+/// Parses a single line from a `.env` file.
+fn line_parser(
+  env_vars: Map(String, String),
+) -> Parser(Map(String, String), TokenKind, a) {
+  use key <- do(exported_key_parser())
+  use _ <- do(nibble.token(lexer.Equal))
+  use value <- do(value_parser())
+  use _ <- do(nibble.one_of([nibble.token(lexer.Newline), nibble.eof()]))
+
+  env_vars
+  |> map.insert(key, value)
+  |> return
+}
+
+/// Parses a key that is optionally preceeded by an `export`.
+///
+/// ```sh
+/// export KEY=value
+/// ^^^^^^^^^^
+/// ```
+fn exported_key_parser() {
+  use export <- do(nibble.optional(nibble.token(lexer.Export)))
+
+  case export {
+    Some(_) ->
+      // If we found an `export` then ignore it and try to parse a key.
+      key_parser()
+      // If we don't find a key, use `export` as the key.
+      |> nibble.or("export")
+
+    // If we didn't find an `export` then try to parse the key as usual.
+    None -> key_parser()
   }
 }
 
-/// Strips the comments out of the given line.
-fn strip_comments(line: String) -> Result(String, Nil) {
-  case
-    line
-    |> string.split_once(on: "#")
-  {
-    Ok(#(value, _)) -> Ok(value)
-    Error(Nil) -> Ok(line)
+/// Parses a key.
+///
+/// ```sh
+/// KEY=value
+/// ^^^
+/// ```
+fn key_parser() -> Parser(String, TokenKind, a) {
+  use token <- nibble.take_map("KEY")
+
+  case token {
+    lexer.Key(key) -> Some(key)
+    // `export` can be used as a key.
+    lexer.Export -> Some("export")
+    _ -> None
   }
 }
 
-/// Unquotes the given string using the specified quote character.
-fn unquote(line: String, quote quote_char: String) -> String {
-  line
-  |> glenvy_string.trim_chars_left(quote_char)
-  |> glenvy_string.trim_chars_right(quote_char)
+/// Parses a value.
+///
+/// ```sh
+/// KEY=value
+///     ^^^^^
+/// ```
+fn value_parser() -> Parser(String, TokenKind, a) {
+  use token <- nibble.take_map("VALUE")
+
+  case token {
+    lexer.Value(value) -> Some(value)
+    lexer.Key(value) -> Some(value)
+    _ -> None
+  }
 }
