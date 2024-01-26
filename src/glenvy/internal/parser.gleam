@@ -1,10 +1,10 @@
 //// A `.env` file parser.
 
-import gleam/map.{Map}
+import gleam/map.{type Map}
 import gleam/option.{None, Some}
 import gleam/result.{try}
-import glenvy/internal/lexer.{TokenKind}
-import nibble.{Break, Continue, Parser, do, return}
+import glenvy/internal/lexer.{type TokenKind}
+import nibble.{type Parser, Break, Continue, do, return}
 
 /// Parses a `.env` file into its contained environment variables.
 pub fn parse_env_file(contents: String) -> Map(String, String) {

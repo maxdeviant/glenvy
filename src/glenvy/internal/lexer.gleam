@@ -2,7 +2,7 @@
 
 import gleam/function
 import gleam/set
-import nibble/lexer.{Lexer, Token}
+import nibble/lexer.{type Lexer, type Token}
 
 pub type TokenKind {
   Equal

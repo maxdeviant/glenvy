@@ -34,7 +34,9 @@ DOUBLE_QUOTE=\"2\"
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(map.from_list([#("SINGLE_QUOTE", "1"), #("DOUBLE_QUOTE", "2")]))
+  |> should.equal(
+    map.from_list([#("SINGLE_QUOTE", "1"), #("DOUBLE_QUOTE", "2")]),
+  )
 }
 
 pub fn parser_export_as_key_test() {

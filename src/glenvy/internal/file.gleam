@@ -1,15 +1,14 @@
-if erlang {
-  import gleam/erlang/file
-  import gleam/result
-  import gleam/string
+import gleam/result
+import gleam/string
+@target(erlang)
+import simplifile
 
-  pub fn read(from path: String) -> Result(String, String) {
-    file.read(from: path)
-    |> result.map_error(string.inspect)
-  }
+@target(erlang)
+pub fn read(from path: String) -> Result(String, String) {
+  simplifile.read(from: path)
+  |> result.map_error(string.inspect)
 }
 
-if javascript {
-  pub external fn read(from: String) -> Result(String, String) =
-    "../../glenvy_ffi.mjs" "read_file"
-}
+@target(javascript)
+@external(javascript, "../../glenvy_ffi.mjs", "read_file")
+pub fn read(from: String) -> Result(String, String)

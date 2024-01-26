@@ -3,7 +3,7 @@
 import gleam/list
 import gleam/map
 import gleam/result.{try}
-import glenvy/error.{Error}
+import glenvy/error.{type Error}
 import glenvy/internal/file
 import glenvy/internal/os
 import glenvy/internal/parser

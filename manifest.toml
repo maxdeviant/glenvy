@@ -2,14 +2,16 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "gleam_erlang", version = "0.19.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_erlang", source = "hex", outer_checksum = "720D1E0A0CEBBD51C4AA88501D1D4FBFEF4AA7B3332C994691ED944767A52582" },
-  { name = "gleam_stdlib", version = "0.29.1", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "24581B17879AA903B3E7531869D9460730C2F772A1C02C774ABF75710CCC4CFE" },
-  { name = "gleeunit", version = "0.10.1", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "ECEA2DE4BE6528D36AFE74F42A21CDF99966EC36D7F25DEB34D47DD0F7977BAF" },
-  { name = "nibble", version = "1.0.0-rc.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "nibble", source = "hex", outer_checksum = "150EDE98A7491F7FBDFCED61174A5DADEC717AD5E22AFD06E855FF29498AC915" },
+  { name = "gleam_erlang", version = "0.24.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_erlang", source = "hex", outer_checksum = "26BDB52E61889F56A291CB34167315780EE4AA20961917314446542C90D1C1A0" },
+  { name = "gleam_stdlib", version = "0.34.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "1FB8454D2991E9B4C0C804544D8A9AD0F6184725E20D63C3155F0AEB4230B016" },
+  { name = "gleeunit", version = "1.0.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "D364C87AFEB26BDB4FB8A5ABDE67D635DC9FA52D6AB68416044C35B096C6882D" },
+  { name = "nibble", version = "1.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "nibble", source = "hex", outer_checksum = "D15BE4CC6E927086C5A9E8A28C5A6B0DB2DE535FA1A1CA1A6645BA87490A42E4" },
+  { name = "simplifile", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "359CD7006E2F69255025C858CCC6407C11A876EC179E6ED1E46809E8DC6B1AAD" },
 ]
 
 [requirements]
-gleam_erlang = "~> 0.19"
-gleam_stdlib = "~> 0.29"
-gleeunit = "~> 0.10"
-nibble = "~> 1.0.0-rc.2"
+gleam_erlang = { version = "~> 0.24" }
+gleam_stdlib = { version = "~> 0.34" }
+gleeunit = { version = "~> 1.0" }
+nibble = { version = "~> 1.0" }
+simplifile = { version = "~> 1.2"}
