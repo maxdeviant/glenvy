@@ -1,7 +1,7 @@
 //// Support for `.env` files.
 
+import gleam/dict
 import gleam/list
-import gleam/map
 import gleam/result.{try}
 import glenvy/error.{type Error}
 import glenvy/internal/file
@@ -22,7 +22,7 @@ pub fn load_from(path filepath: String) -> Result(Nil, Error) {
     |> parser.parse_env_file
 
   env_vars
-  |> map.to_list
+  |> dict.to_list
   |> list.each(fn(env_var) {
     let #(key, value) = env_var
 

@@ -1,6 +1,6 @@
 import gleeunit/should
 import glenvy/internal/lexer.{Equal, Export, Key, Newline, Value}
-import nibble/lexer.{Span, Token} as niblex
+import nibble/lexer.{Span, Token} as _
 import gleam/string
 
 pub fn lexer_tokenize_simple_key_value_pair_test() {

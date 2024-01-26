@@ -1,19 +1,19 @@
 //// A `.env` file parser.
 
-import gleam/map.{type Map}
+import gleam/dict.{type Dict}
 import gleam/option.{None, Some}
 import gleam/result.{try}
 import glenvy/internal/lexer.{type TokenKind}
 import nibble.{type Parser, Break, Continue, do, return}
 
 /// Parses a `.env` file into its contained environment variables.
-pub fn parse_env_file(contents: String) -> Map(String, String) {
+pub fn parse_env_file(contents: String) -> Dict(String, String) {
   contents
   |> try_parse_env_file
-  |> result.unwrap(map.new())
+  |> result.unwrap(dict.new())
 }
 
-fn try_parse_env_file(contents: String) -> Result(Map(String, String), Nil) {
+fn try_parse_env_file(contents: String) -> Result(Dict(String, String), Nil) {
   use tokens <- try(
     lexer.tokenize(contents)
     |> result.nil_error,
@@ -24,8 +24,8 @@ fn try_parse_env_file(contents: String) -> Result(Map(String, String), Nil) {
   |> result.nil_error
 }
 
-fn env_file_parser() -> Parser(Map(String, String), TokenKind, a) {
-  use env_vars <- nibble.loop(map.new())
+fn env_file_parser() -> Parser(Dict(String, String), TokenKind, a) {
+  use env_vars <- nibble.loop(dict.new())
 
   nibble.one_of([
     line_parser(env_vars)
@@ -39,15 +39,15 @@ fn env_file_parser() -> Parser(Map(String, String), TokenKind, a) {
 
 /// Parses a single line from a `.env` file.
 fn line_parser(
-  env_vars: Map(String, String),
-) -> Parser(Map(String, String), TokenKind, a) {
+  env_vars: Dict(String, String),
+) -> Parser(Dict(String, String), TokenKind, a) {
   use key <- do(exported_key_parser())
   use _ <- do(nibble.token(lexer.Equal))
   use value <- do(value_parser())
   use _ <- do(nibble.one_of([nibble.token(lexer.Newline), nibble.eof()]))
 
   env_vars
-  |> map.insert(key, value)
+  |> dict.insert(key, value)
   |> return
 }
 
