@@ -7,12 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Expanded Gleam `stdlib` range.
+
 ## [0.5.0] - 2024-01-25
 
 ### Changed
 
-- Upgraded Gleam `stdlib` to v0.34
-- Replaced `Map` with `Dict`
+- Upgraded Gleam `stdlib` to v0.34.
+- Replaced `Map` with `Dict`.
 
 ## [0.4.0] - 2023-05-30
 
