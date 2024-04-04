@@ -1,6 +1,5 @@
 //// A `.env` file lexer.
 
-import gleam/function
 import gleam/set
 import nibble/lexer.{type Lexer, type Token}
 
@@ -23,6 +22,14 @@ pub type TokenKind {
 fn lexer() -> Lexer(TokenKind, Nil) {
   let keywords = set.from_list(["export"])
 
+  let comments =
+    lexer.comment("#", fn(_) { Nil })
+    |> lexer.ignore
+
+  let whitespace =
+    lexer.spaces(Nil)
+    |> lexer.ignore
+
   lexer.simple([
     lexer.token("=", Equal),
     // Newlines.
@@ -37,12 +44,8 @@ fn lexer() -> Lexer(TokenKind, Nil) {
     lexer.string("\"", Value),
     lexer.string("'", Value),
     lexer.identifier("[^\\s=#\"']", "[.]", keywords, Value),
-    // Comments.
-    lexer.comment("#", function.constant(Nil))
-    |> lexer.ignore,
-    // Whitespace.
-    lexer.spaces(Nil)
-    |> lexer.ignore,
+    comments,
+    whitespace,
   ])
 }
 

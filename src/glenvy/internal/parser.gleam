@@ -29,11 +29,11 @@ fn env_file_parser() -> Parser(Dict(String, String), TokenKind, a) {
 
   nibble.one_of([
     line_parser(env_vars)
-    |> nibble.map(Continue),
+      |> nibble.map(Continue),
     nibble.many1(nibble.token(lexer.Newline))
-    |> nibble.replace(Continue(env_vars)),
+      |> nibble.replace(Continue(env_vars)),
     nibble.eof()
-    |> nibble.replace(Break(env_vars)),
+      |> nibble.replace(Break(env_vars)),
   ])
 }
 
