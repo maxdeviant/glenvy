@@ -1,4 +1,6 @@
+@target(erlang)
 import gleam/result
+@target(erlang)
 import gleam/string
 @target(erlang)
 import simplifile

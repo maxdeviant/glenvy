@@ -53,3 +53,8 @@ fn lexer() -> Lexer(TokenKind, Nil) {
 pub fn tokenize(input: String) -> Result(List(Token(TokenKind)), lexer.Error) {
   lexer.run(input, lexer())
 }
+
+/// Returns whether the given token is a newline.
+pub fn is_newline(token: TokenKind) -> Bool {
+  token == Newline
+}

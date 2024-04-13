@@ -1,8 +1,10 @@
 //// A `.env` file parser.
 
 import gleam/dict.{type Dict}
+import gleam/list
 import gleam/option.{None, Some}
 import gleam/result.{try}
+import gleam/string
 import glenvy/internal/lexer.{type TokenKind}
 import nibble.{type Parser, Break, Continue, do, return}
 
@@ -96,11 +98,19 @@ fn key_parser() -> Parser(String, TokenKind, a) {
 ///     ^^^^^
 /// ```
 fn value_parser() -> Parser(String, TokenKind, a) {
-  use token <- nibble.take_map("VALUE")
+  use tokens <- do(nibble.take_until(lexer.is_newline))
 
-  case token {
-    lexer.Value(value) -> Some(value)
-    lexer.Key(value) -> Some(value)
-    _ -> None
-  }
+  tokens
+  |> list.filter_map(fn(token) {
+    case token {
+      lexer.Value(value) -> Ok(value)
+      lexer.Key(value) -> Ok(value)
+      // Any `=` after the first are treated as part of the value.
+      // This handles the common case of trailing `=` in base64-encoded values.
+      lexer.Equal -> Ok("=")
+      _ -> Error(Nil)
+    }
+  })
+  |> string.join("")
+  |> return
 }

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `glenvy/dotenv`
+  - Added support for values containing `=` without needing to quote them (e.g., `KEY=aGVsbG8=`).
+    - Any `=`s on a line after the first one are now treated as part of the value.
+
 ## [0.5.1] - 2024-01-30
 
 ### Changed

@@ -53,3 +53,26 @@ pub fn dotenv_simple_windows_env_test() {
   |> should.be_ok
   |> should.equal("value")
 }
+
+pub fn dotenv_equals_in_value_env_test() {
+  reset_env(["KEY", "TRAILING_EQ", "STARTING_EQ", "KEY_2"])
+
+  let assert Ok(Nil) =
+    dotenv.load_from(path: "test/fixtures/equals_in_value.env")
+
+  os.get_env("KEY")
+  |> should.be_ok
+  |> should.equal("1")
+
+  os.get_env("TRAILING_EQ")
+  |> should.be_ok
+  |> should.equal("YmFkIHZhbHVlIQ==")
+
+  os.get_env("STARTING_EQ")
+  |> should.be_ok
+  |> should.equal("=foobar")
+
+  os.get_env("KEY_2")
+  |> should.be_ok
+  |> should.equal("2")
+}
