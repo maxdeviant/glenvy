@@ -3,10 +3,15 @@
 import gleam/dict
 import gleam/list
 import gleam/result.{try}
-import glenvy/error.{type Error}
 import glenvy/internal/file
 import glenvy/internal/os
 import glenvy/internal/parser
+
+/// An error that occurred while reading a `.env` file.
+pub type Error {
+  /// An IO error.
+  Io(message: String)
+}
 
 /// Loads the `.env` file.
 pub fn load() -> Result(Nil, Error) {
@@ -35,7 +40,7 @@ pub fn load_from(path filepath: String) -> Result(Nil, Error) {
 fn find(filepath: String) -> Result(String, Error) {
   use contents <- try(
     file.read(filepath)
-    |> result.map_error(error.Io),
+    |> result.map_error(Io),
   )
 
   Ok(contents)

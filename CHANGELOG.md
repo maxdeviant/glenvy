@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Moved `glenvy/error.{type Error}` to `glenvy/dotenv.{type Error}`.
+
 ## [0.6.1] - 2024-04-13
 
 ### Changed

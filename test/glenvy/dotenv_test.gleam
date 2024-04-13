@@ -1,7 +1,6 @@
 import gleam/list
 import gleeunit/should
 import glenvy/dotenv
-import glenvy/error
 import glenvy/internal/os
 
 fn reset_env(keys: List(String)) {
@@ -13,14 +12,14 @@ fn reset_env(keys: List(String)) {
 pub fn dotenv_nonexistent_file_test() {
   dotenv.load_from(path: "definitely_does_not_exist.env")
   |> should.be_error
-  |> should.equal(error.Io("Enoent"))
+  |> should.equal(dotenv.Io("Enoent"))
 }
 
 @target(javascript)
 pub fn dotenv_nonexistent_file_test() {
   dotenv.load_from(path: "definitely_does_not_exist.env")
   |> should.be_error
-  |> should.equal(error.Io(
+  |> should.equal(dotenv.Io(
     "ENOENT: no such file or directory, open 'definitely_does_not_exist.env'",
   ))
 }
