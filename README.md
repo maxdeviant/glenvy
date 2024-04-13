@@ -3,7 +3,7 @@
 [![Package Version](https://img.shields.io/hexpm/v/glenvy)](https://hex.pm/packages/glenvy)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glenvy/)
 
-🏞️ A pleasant way to interact with your `.env`ironment.
+🏞️ A pleasant way to interact with your environment variables.
 
 ## Installation
 
