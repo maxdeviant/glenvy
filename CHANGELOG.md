@@ -7,8 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `glenvy/env`
+  - Added an `Error` type.
+
 ### Changed
 
+- `glenvy/env`
+  - `get_string` now returns `Result(String, Error)` instead of `Result(String, Nil)`.
+  - `get` now returns `Result(a, Error)` instead of `Result(a, Nil)`.
+  - `get_int` now returns `Result(Int, Error)` instead of `Result(Int, Nil)`.
+  - `get_float` now returns `Result(Float, Error)` instead of `Result(Float, Nil)`.
+  - `get_bool` now returns `Result(Bool, Error)` instead of `Result(Bool, Nil)`.
 - Moved `glenvy/error.{type Error}` to `glenvy/dotenv.{type Error}`.
 
 ## [0.6.1] - 2024-04-13

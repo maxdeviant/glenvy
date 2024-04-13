@@ -6,38 +6,48 @@ import gleam/result.{try}
 import gleam/string
 import glenvy/internal/os
 
+/// An error that occurred while reading an environment variable.
+pub type Error {
+  /// The environment variable with the given name wasn't found.
+  NotFound(name: String)
+  /// The environment variable with the given name failed to parse.
+  FailedToParse(name: String)
+}
+
 /// Returns the value for the environment variable with the given name as a `String`.
-pub fn get_string(name: String) -> Result(String, Nil) {
+pub fn get_string(name: String) -> Result(String, Error) {
   os.get_env(name)
+  |> result.map_error(fn(_) { NotFound(name) })
 }
 
 /// Returns the value for the environment variable with the given name.
 ///
 /// Uses the provided `parser` to parse the value.
 ///
-/// Returns `Error(Nil)` if the provided `parser` returns `Error(Nil)`.
+/// Returns `Error(FailedToParse)` if the provided `parser` returns `Error(Nil)`.
 pub fn get(
   name: String,
   parser parse: fn(String) -> Result(a, Nil),
-) -> Result(a, Nil) {
+) -> Result(a, Error) {
   use value <- try(get_string(name))
 
   value
   |> parse
+  |> result.map_error(fn(_) { FailedToParse(name) })
 }
 
 /// Returns the value for the environment variable with the given name as an `Int`.
 ///
-/// Returns `Error(Nil)` if the environment variable cannot be parsed as an `Int`.
-pub fn get_int(name: String) -> Result(Int, Nil) {
+/// Returns `Error(FailedToParse)` if the environment variable cannot be parsed as an `Int`.
+pub fn get_int(name: String) -> Result(Int, Error) {
   name
   |> get(parser: int.parse)
 }
 
 /// Returns the value for the environment variable with the given name as a `Float`.
 ///
-/// Returns `Error(Nil)` if the environment variable cannot be parsed as a `Float`.
-pub fn get_float(name: String) -> Result(Float, Nil) {
+/// Returns `Error(FailedToParse)` if the environment variable cannot be parsed as a `Float`.
+pub fn get_float(name: String) -> Result(Float, Error) {
   name
   |> get(parser: float.parse)
 }
@@ -60,10 +70,10 @@ pub fn get_float(name: String) -> Result(Float, Nil) {
 ///
 /// The parsing is case-insensitive.
 ///
-/// Returns `Error(Nil)` if the environment variable cannot be parsed as a `Bool`.
+/// Returns `Error(FailedToParse)` if the environment variable cannot be parsed as a `Bool`.
 ///
 /// Use `get` if you want to provide your own parser.
-pub fn get_bool(name: String) -> Result(Bool, Nil) {
+pub fn get_bool(name: String) -> Result(Bool, Error) {
   let parse_bool = fn(value) {
     let value =
       value

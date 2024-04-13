@@ -4,8 +4,9 @@ import { readFileSync } from "node:fs";
 const Nil = undefined;
 
 export function get_env(name) {
-  if (process.env[name]) {
-    return new Ok(process.env[name]);
+  const value = process.env[name];
+  if (typeof value === "string") {
+    return new Ok(value);
   } else {
     return new Error(Nil);
   }

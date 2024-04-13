@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import glenvy/env
+import glenvy/env.{FailedToParse, NotFound}
 import glenvy/internal/os
 
 pub fn env_get_string_test() {
@@ -14,7 +14,7 @@ pub fn env_get_string_test() {
 pub fn env_get_string_with_nonexistent_value_test() {
   env.get_string("DOES_NOT_EXIST")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(NotFound("DOES_NOT_EXIST"))
 }
 
 pub fn env_get_int_with_int_value_test() {
@@ -30,13 +30,13 @@ pub fn env_get_int_with_string_value_test() {
 
   env.get_int("AN_INT")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(FailedToParse("AN_INT"))
 }
 
 pub fn env_get_int_with_nonexistent_value_test() {
   env.get_int("DOES_NOT_EXIST")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(NotFound("DOES_NOT_EXIST"))
 }
 
 pub fn env_get_float_with_float_value_test() {
@@ -52,7 +52,7 @@ pub fn env_get_float_with_int_value_test() {
 
   env.get_float("A_FLOAT")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(FailedToParse("A_FLOAT"))
 }
 
 pub fn env_get_float_with_string_value_test() {
@@ -60,13 +60,13 @@ pub fn env_get_float_with_string_value_test() {
 
   env.get_float("A_FLOAT")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(FailedToParse("A_FLOAT"))
 }
 
 pub fn env_get_float_with_nonexistent_value_test() {
   env.get_float("DOES_NOT_EXIST")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(NotFound("DOES_NOT_EXIST"))
 }
 
 pub fn env_get_bool_with_true_values_test() {
@@ -108,14 +108,14 @@ pub fn env_get_bool_with_indeterminate_values_test() {
 
     env.get_bool("AN_INDETERMINATE_VALUE")
     |> should.be_error
-    |> should.equal(Nil)
+    |> should.equal(FailedToParse("AN_INDETERMINATE_VALUE"))
   })
 }
 
 pub fn env_get_bool_with_nonexistent_value_test() {
   env.get_bool("DOES_NOT_EXIST")
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(NotFound("DOES_NOT_EXIST"))
 }
 
 type ApiKey {
@@ -151,5 +151,5 @@ pub fn env_get_with_nonexistent_value_test() {
 
   env.get("DOES_NOT_EXIST", parser: always_true)
   |> should.be_error
-  |> should.equal(Nil)
+  |> should.equal(NotFound("DOES_NOT_EXIST"))
 }
