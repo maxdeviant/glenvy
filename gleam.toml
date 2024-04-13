@@ -6,9 +6,9 @@ repository = { type = "github", user = "maxdeviant", repo = "glenvy" }
 
 [dependencies]
 gleam_stdlib = "~> 0.34 or ~> 1.0"
-gleam_erlang = "~> 0.24"
-nibble = "~> 1.0"
-simplifile = "~> 1.2"
+gleam_erlang = "~> 0.25"
+nibble = "~> 1.1"
+simplifile = "~> 1.7"
 
 [dev-dependencies]
 gleeunit = "~> 1.0"
