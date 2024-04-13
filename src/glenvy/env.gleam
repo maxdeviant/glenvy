@@ -8,7 +8,7 @@ import glenvy/internal/os
 
 /// An error that occurred while reading an environment variable.
 pub type Error {
-  /// The environment variable with the given name wasn't found.
+  /// The environment variable with the given name was not found.
   NotFound(name: String)
   /// The environment variable with the given name failed to parse.
   FailedToParse(name: String)
