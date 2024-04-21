@@ -1,7 +1,7 @@
-import gleeunit/should
+import gleam/string
 import glenvy/internal/lexer.{Equal, Export, Key, Newline, Value}
 import nibble/lexer.{Span, Token} as _
-import gleam/string
+import startest/expect
 
 pub fn lexer_tokenize_simple_key_value_pair_test() {
   let env_file =
@@ -12,8 +12,8 @@ KEY_2=value
     |> string.trim_left
 
   lexer.tokenize(env_file)
-  |> should.be_ok
-  |> should.equal([
+  |> expect.to_be_ok
+  |> expect.to_equal([
     Token(Span(1, 1, 1, 4), "KEY", Key("KEY")),
     Token(Span(1, 4, 1, 5), "=", Equal),
     Token(Span(1, 5, 1, 6), "1", Value("1")),
@@ -36,8 +36,8 @@ KEY_2=value # This is also a comment.
     |> string.trim_left
 
   lexer.tokenize(env_file)
-  |> should.be_ok
-  |> should.equal([
+  |> expect.to_be_ok
+  |> expect.to_equal([
     Token(Span(1, 21, 2, 1), "\n", Newline),
     Token(Span(2, 1, 2, 4), "KEY", Key("KEY")),
     Token(Span(2, 4, 2, 5), "=", Equal),
@@ -60,8 +60,8 @@ DOUBLE_QUOTE=\"2\"
     |> string.trim_left
 
   lexer.tokenize(env_file)
-  |> should.be_ok
-  |> should.equal([
+  |> expect.to_be_ok
+  |> expect.to_equal([
     Token(Span(1, 1, 1, 13), "SINGLE_QUOTE", Key("SINGLE_QUOTE")),
     Token(Span(1, 13, 1, 14), "=", Equal),
     Token(Span(1, 14, 1, 17), "'1'", Value("1")),
@@ -81,8 +81,8 @@ export=\"export as key\"
     |> string.trim_left
 
   lexer.tokenize(env_file)
-  |> should.be_ok
-  |> should.equal([
+  |> expect.to_be_ok
+  |> expect.to_equal([
     Token(Span(1, 1, 1, 7), "export", Export),
     Token(Span(1, 7, 1, 8), "=", Equal),
     Token(Span(1, 8, 1, 23), "\"export as key\"", Value("export as key")),
@@ -98,8 +98,8 @@ export   SHELL_LOVER=1
     |> string.trim_left
 
   lexer.tokenize(env_file)
-  |> should.be_ok
-  |> should.equal([
+  |> expect.to_be_ok
+  |> expect.to_equal([
     Token(Span(1, 1, 1, 7), "export", Export),
     Token(Span(1, 10, 1, 21), "SHELL_LOVER", Key("SHELL_LOVER")),
     Token(Span(1, 21, 1, 22), "=", Equal),
@@ -116,8 +116,8 @@ export export='exported export as key'
     |> string.trim_left
 
   lexer.tokenize(env_file)
-  |> should.be_ok
-  |> should.equal([
+  |> expect.to_be_ok
+  |> expect.to_equal([
     Token(Span(1, 1, 1, 7), "export", Export),
     Token(Span(1, 8, 1, 14), "export", Export),
     Token(Span(1, 14, 1, 15), "=", Equal),

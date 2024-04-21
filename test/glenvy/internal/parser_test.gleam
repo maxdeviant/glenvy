@@ -1,6 +1,6 @@
 import gleam/dict
-import gleeunit/should
 import glenvy/internal/parser
+import startest/expect
 
 pub fn parser_simple_key_value_pair_test() {
   let env_file =
@@ -10,7 +10,7 @@ KEY_2=value
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(dict.from_list([#("KEY", "1"), #("KEY_2", "value")]))
+  |> expect.to_equal(dict.from_list([#("KEY", "1"), #("KEY_2", "value")]))
 }
 
 pub fn parser_comments_test() {
@@ -23,7 +23,7 @@ KEY_2=value # This is also a comment.
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(dict.from_list([#("KEY", "1"), #("KEY_2", "value")]))
+  |> expect.to_equal(dict.from_list([#("KEY", "1"), #("KEY_2", "value")]))
 }
 
 pub fn parser_quoted_values_test() {
@@ -34,7 +34,7 @@ DOUBLE_QUOTE=\"2\"
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(
+  |> expect.to_equal(
     dict.from_list([#("SINGLE_QUOTE", "1"), #("DOUBLE_QUOTE", "2")]),
   )
 }
@@ -46,7 +46,7 @@ export=\"export as key\"
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(dict.from_list([#("export", "export as key")]))
+  |> expect.to_equal(dict.from_list([#("export", "export as key")]))
 }
 
 pub fn parser_export_test() {
@@ -56,7 +56,7 @@ export   SHELL_LOVER=1
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(dict.from_list([#("SHELL_LOVER", "1")]))
+  |> expect.to_equal(dict.from_list([#("SHELL_LOVER", "1")]))
 }
 
 pub fn parser_exported_export_as_key_test() {
@@ -66,5 +66,5 @@ export export='exported export as key'
     "
 
   parser.parse_env_file(env_file)
-  |> should.equal(dict.from_list([#("export", "exported export as key")]))
+  |> expect.to_equal(dict.from_list([#("export", "exported export as key")]))
 }

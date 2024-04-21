@@ -1,7 +1,7 @@
 import gleam/list
-import gleeunit/should
 import glenvy/dotenv
 import glenvy/internal/os
+import startest/expect
 
 fn reset_env(keys: List(String)) {
   keys
@@ -11,15 +11,15 @@ fn reset_env(keys: List(String)) {
 @target(erlang)
 pub fn dotenv_nonexistent_file_test() {
   dotenv.load_from(path: "definitely_does_not_exist.env")
-  |> should.be_error
-  |> should.equal(dotenv.Io("Enoent"))
+  |> expect.to_be_error
+  |> expect.to_equal(dotenv.Io("Enoent"))
 }
 
 @target(javascript)
 pub fn dotenv_nonexistent_file_test() {
   dotenv.load_from(path: "definitely_does_not_exist.env")
-  |> should.be_error
-  |> should.equal(dotenv.Io(
+  |> expect.to_be_error
+  |> expect.to_equal(dotenv.Io(
     "ENOENT: no such file or directory, open 'definitely_does_not_exist.env'",
   ))
 }
@@ -30,12 +30,12 @@ pub fn dotenv_simple_env_test() {
   let assert Ok(Nil) = dotenv.load_from(path: "test/fixtures/simple.env")
 
   os.get_env("KEY")
-  |> should.be_ok
-  |> should.equal("1")
+  |> expect.to_be_ok
+  |> expect.to_equal("1")
 
   os.get_env("KEY_2")
-  |> should.be_ok
-  |> should.equal("value")
+  |> expect.to_be_ok
+  |> expect.to_equal("value")
 }
 
 pub fn dotenv_simple_windows_env_test() {
@@ -45,12 +45,12 @@ pub fn dotenv_simple_windows_env_test() {
     dotenv.load_from(path: "test/fixtures/simple_windows.env")
 
   os.get_env("KEY")
-  |> should.be_ok
-  |> should.equal("1")
+  |> expect.to_be_ok
+  |> expect.to_equal("1")
 
   os.get_env("KEY_2")
-  |> should.be_ok
-  |> should.equal("value")
+  |> expect.to_be_ok
+  |> expect.to_equal("value")
 }
 
 pub fn dotenv_equals_in_value_env_test() {
@@ -60,18 +60,18 @@ pub fn dotenv_equals_in_value_env_test() {
     dotenv.load_from(path: "test/fixtures/equals_in_value.env")
 
   os.get_env("KEY")
-  |> should.be_ok
-  |> should.equal("1")
+  |> expect.to_be_ok
+  |> expect.to_equal("1")
 
   os.get_env("TRAILING_EQ")
-  |> should.be_ok
-  |> should.equal("YmFkIHZhbHVlIQ==")
+  |> expect.to_be_ok
+  |> expect.to_equal("YmFkIHZhbHVlIQ==")
 
   os.get_env("STARTING_EQ")
-  |> should.be_ok
-  |> should.equal("=foobar")
+  |> expect.to_be_ok
+  |> expect.to_equal("=foobar")
 
   os.get_env("KEY_2")
-  |> should.be_ok
-  |> should.equal("2")
+  |> expect.to_be_ok
+  |> expect.to_equal("2")
 }
