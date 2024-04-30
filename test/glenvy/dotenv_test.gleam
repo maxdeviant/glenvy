@@ -1,6 +1,7 @@
 import gleam/list
 import glenvy/dotenv
 import glenvy/internal/os
+import simplifile
 import startest/expect
 
 fn reset_env(keys: List(String)) {
@@ -8,20 +9,10 @@ fn reset_env(keys: List(String)) {
   |> list.each(os.unset_env(_))
 }
 
-@target(erlang)
 pub fn dotenv_nonexistent_file_test() {
   dotenv.load_from(path: "definitely_does_not_exist.env")
   |> expect.to_be_error
-  |> expect.to_equal(dotenv.Io("Enoent"))
-}
-
-@target(javascript)
-pub fn dotenv_nonexistent_file_test() {
-  dotenv.load_from(path: "definitely_does_not_exist.env")
-  |> expect.to_be_error
-  |> expect.to_equal(dotenv.Io(
-    "ENOENT: no such file or directory, open 'definitely_does_not_exist.env'",
-  ))
+  |> expect.to_equal(dotenv.Io(simplifile.Enoent))
 }
 
 pub fn dotenv_simple_env_test() {

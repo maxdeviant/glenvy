@@ -3,14 +3,14 @@
 import gleam/dict
 import gleam/list
 import gleam/result.{try}
-import glenvy/internal/file
 import glenvy/internal/os
 import glenvy/internal/parser
+import simplifile
 
 /// An error that occurred while reading a `.env` file.
 pub type Error {
   /// An IO error.
-  Io(message: String)
+  Io(simplifile.FileError)
 }
 
 /// Loads the `.env` file.
@@ -39,7 +39,7 @@ pub fn load_from(path filepath: String) -> Result(Nil, Error) {
 
 fn find(filepath: String) -> Result(String, Error) {
   use contents <- try(
-    file.read(filepath)
+    simplifile.read(filepath)
     |> result.map_error(Io),
   )
 

@@ -1,5 +1,4 @@
 import { Ok, Error } from "./gleam.mjs";
-import { readFileSync } from "node:fs";
 
 const Nil = undefined;
 
@@ -22,12 +21,4 @@ export function unset_env(name) {
   delete process.env[name];
 
   return Nil;
-}
-
-export function read_file(path) {
-  try {
-    return new Ok(readFileSync(path, "utf-8"));
-  } catch (error) {
-    return new Error(error.message || "");
-  }
 }

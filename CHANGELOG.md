@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `get_float` now returns `Result(Float, Error)` instead of `Result(Float, Nil)`.
   - `get_bool` now returns `Result(Bool, Error)` instead of `Result(Bool, Nil)`.
 - Moved `glenvy/error.{type Error}` to `glenvy/dotenv.{type Error}`.
+- Changed `glenvy/dotenv.{Io}` to contain a `simplifile.FileError` instead of a `String`.
 
 ## [0.6.1] - 2024-04-13
 
