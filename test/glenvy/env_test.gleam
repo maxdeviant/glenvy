@@ -1,155 +1,207 @@
 import gleam/list
 import glenvy/env.{FailedToParse, NotFound}
 import glenvy/internal/os
+import startest.{describe, it}
 import startest/expect
 
-pub fn env_get_string_test() {
-  os.set_env("A_STRING", "hello, world")
+pub fn get_string_tests() {
+  describe("glenvy/env", [
+    describe("get_string", [
+      it("returns the environment variable with the specified name", fn() {
+        os.set_env("A_STRING", "hello, world")
 
-  env.get_string("A_STRING")
-  |> expect.to_be_ok
-  |> expect.to_equal("hello, world")
+        env.get_string("A_STRING")
+        |> expect.to_be_ok
+        |> expect.to_equal("hello, world")
+      }),
+      describe("when the environment variable does not exist", [
+        it("returns a `NotFound` error", fn() {
+          env.get_string("DOES_NOT_EXIST")
+          |> expect.to_be_error
+          |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+        }),
+      ]),
+    ]),
+  ])
 }
 
-pub fn env_get_string_with_nonexistent_value_test() {
-  env.get_string("DOES_NOT_EXIST")
-  |> expect.to_be_error
-  |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+pub fn get_int_tests() {
+  describe("glenvy/env", [
+    describe("get_int", [
+      describe("when the environment variable has an integer value", [
+        it("returns the integer value", fn() {
+          os.set_env("AN_INT", "42")
+
+          env.get_int("AN_INT")
+          |> expect.to_be_ok
+          |> expect.to_equal(42)
+        }),
+      ]),
+      describe("when the environment variable has a string value", [
+        it("returns a `FailedToParse` error", fn() {
+          os.set_env("AN_INT", "not an int")
+
+          env.get_int("AN_INT")
+          |> expect.to_be_error
+          |> expect.to_equal(FailedToParse("AN_INT"))
+        }),
+      ]),
+      describe("when the environment variable does not exist", [
+        it("returns a `NotFound` error", fn() {
+          env.get_int("DOES_NOT_EXIST")
+          |> expect.to_be_error
+          |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+        }),
+      ]),
+    ]),
+  ])
 }
 
-pub fn env_get_int_with_int_value_test() {
-  os.set_env("AN_INT", "42")
+pub fn get_float_tests() {
+  describe("glenvy/env", [
+    describe("get_float", [
+      describe("when the environment variable has a float value", [
+        it("returns the float value", fn() {
+          os.set_env("A_FLOAT", "37.89")
 
-  env.get_int("AN_INT")
-  |> expect.to_be_ok
-  |> expect.to_equal(42)
+          env.get_float("A_FLOAT")
+          |> expect.to_be_ok
+          |> expect.to_equal(37.89)
+        }),
+      ]),
+      describe("when the environment variable has an integer value", [
+        it("returns a `FailedToParse` error", fn() {
+          os.set_env("A_FLOAT", "29")
+
+          env.get_float("A_FLOAT")
+          |> expect.to_be_error
+          |> expect.to_equal(FailedToParse("A_FLOAT"))
+        }),
+      ]),
+      describe("when the environment variable has a string value", [
+        it("returns a `FailedToparse` error", fn() {
+          os.set_env("A_FLOAT", "not a float")
+
+          env.get_float("A_FLOAT")
+          |> expect.to_be_error
+          |> expect.to_equal(FailedToParse("A_FLOAT"))
+        }),
+      ]),
+      describe("when the environment variable does not exist", [
+        it("returns a `NotFound` error", fn() {
+          env.get_float("DOES_NOT_EXIST")
+          |> expect.to_be_error
+          |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+        }),
+      ]),
+    ]),
+  ])
 }
 
-pub fn env_get_int_with_string_value_test() {
-  os.set_env("AN_INT", "not an int")
-
-  env.get_int("AN_INT")
-  |> expect.to_be_error
-  |> expect.to_equal(FailedToParse("AN_INT"))
-}
-
-pub fn env_get_int_with_nonexistent_value_test() {
-  env.get_int("DOES_NOT_EXIST")
-  |> expect.to_be_error
-  |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
-}
-
-pub fn env_get_float_with_float_value_test() {
-  os.set_env("A_FLOAT", "37.89")
-
-  env.get_float("A_FLOAT")
-  |> expect.to_be_ok
-  |> expect.to_equal(37.89)
-}
-
-pub fn env_get_float_with_int_value_test() {
-  os.set_env("A_FLOAT", "29")
-
-  env.get_float("A_FLOAT")
-  |> expect.to_be_error
-  |> expect.to_equal(FailedToParse("A_FLOAT"))
-}
-
-pub fn env_get_float_with_string_value_test() {
-  os.set_env("A_FLOAT", "not a float")
-
-  env.get_float("A_FLOAT")
-  |> expect.to_be_error
-  |> expect.to_equal(FailedToParse("A_FLOAT"))
-}
-
-pub fn env_get_float_with_nonexistent_value_test() {
-  env.get_float("DOES_NOT_EXIST")
-  |> expect.to_be_error
-  |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
-}
-
-pub fn env_get_bool_with_true_values_test() {
+pub fn get_bool_tests() {
   let true_values = [
     "True", "true", "TRUE", "t", "T", "Yes", "yes", "YES", "Y", "y", "1",
   ]
-
-  true_values
-  |> list.each(fn(value) {
-    os.set_env("A_BOOL", value)
-
-    env.get_bool("A_BOOL")
-    |> expect.to_be_ok
-    |> expect.to_equal(True)
-  })
-}
-
-pub fn env_get_bool_with_false_values_test() {
   let false_values = [
     "False", "false", "FALSE", "f", "F", "No", "no", "N", "n", "0",
   ]
-
-  false_values
-  |> list.each(fn(value) {
-    os.set_env("A_BOOL", value)
-
-    env.get_bool("A_BOOL")
-    |> expect.to_be_ok
-    |> expect.to_equal(False)
-  })
-}
-
-pub fn env_get_bool_with_indeterminate_values_test() {
   let indeterminate_values = ["", "Hi", "HELLO", "-1", "2"]
 
-  indeterminate_values
-  |> list.each(fn(value) {
-    os.set_env("AN_INDETERMINATE_VALUE", value)
+  describe("glenvy/env", [
+    describe("get_bool", [
+      describe(
+        "with truthy values",
+        true_values
+          |> list.map(fn(value) {
+          it("returns True for \"" <> value <> "\"", fn() {
+            os.set_env("A_BOOL", value)
 
-    env.get_bool("AN_INDETERMINATE_VALUE")
-    |> expect.to_be_error
-    |> expect.to_equal(FailedToParse("AN_INDETERMINATE_VALUE"))
-  })
-}
+            env.get_bool("A_BOOL")
+            |> expect.to_be_ok
+            |> expect.to_equal(True)
+          })
+        }),
+      ),
+      describe(
+        "with falsy values",
+        false_values
+          |> list.map(fn(value) {
+          it("returns False for \"" <> value <> "\"", fn() {
+            os.set_env("A_BOOL", value)
 
-pub fn env_get_bool_with_nonexistent_value_test() {
-  env.get_bool("DOES_NOT_EXIST")
-  |> expect.to_be_error
-  |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+            env.get_bool("A_BOOL")
+            |> expect.to_be_ok
+            |> expect.to_equal(False)
+          })
+        }),
+      ),
+      describe(
+        "with indeterminate values",
+        indeterminate_values
+          |> list.map(fn(value) {
+          it("returns a `FailedToParse` error for \"" <> value <> "\"", fn() {
+            os.set_env("AN_INDETERMINATE_VALUE", value)
+
+            env.get_bool("AN_INDETERMINATE_VALUE")
+            |> expect.to_be_error
+            |> expect.to_equal(FailedToParse("AN_INDETERMINATE_VALUE"))
+          })
+        }),
+      ),
+      describe("when the environment variable does not exist", [
+        it("returns a `NotFound` error", fn() {
+          env.get_bool("DOES_NOT_EXIST")
+          |> expect.to_be_error
+          |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+        }),
+      ]),
+    ]),
+  ])
 }
 
 type ApiKey {
   ApiKey(String)
 }
 
-pub fn env_get_with_parser_returning_custom_type_test() {
-  os.set_env("API_KEY", "secret_1234")
+pub fn get_tests() {
+  describe("glenvy/env", [
+    describe("get", [
+      describe("with a parser returning a custom type", [
+        it("returns the custom type", fn() {
+          os.set_env("API_KEY", "secret_1234")
 
-  env.get("API_KEY", parser: fn(value) { Ok(ApiKey(value)) })
-  |> expect.to_be_ok
-  |> expect.to_equal(ApiKey("secret_1234"))
-}
+          env.get("API_KEY", parser: fn(value) { Ok(ApiKey(value)) })
+          |> expect.to_be_ok
+          |> expect.to_equal(ApiKey("secret_1234"))
+        }),
+      ]),
+      describe("with a parser returning True", [
+        it("returns True", fn() {
+          os.set_env("A_BOOL", "any value")
 
-pub fn env_get_with_parser_returning_true_test() {
-  os.set_env("A_BOOL", "any value")
+          env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
+          |> expect.to_be_ok
+          |> expect.to_equal(True)
+        }),
+      ]),
+      describe("with a parser returning False", [
+        it("returns False", fn() {
+          os.set_env("A_BOOL", "another value")
 
-  env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
-  |> expect.to_be_ok
-  |> expect.to_equal(True)
-}
+          env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
+          |> expect.to_be_ok
+          |> expect.to_equal(False)
+        }),
+      ]),
+      describe("when the environment variable does not exist", [
+        it("returns a `NotFound` error", fn() {
+          let always_true = fn(_value) { Ok(True) }
 
-pub fn env_get_with_parser_returning_false_test() {
-  os.set_env("A_BOOL", "another value")
-
-  env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
-  |> expect.to_be_ok
-  |> expect.to_equal(False)
-}
-
-pub fn env_get_with_nonexistent_value_test() {
-  let always_true = fn(_value) { Ok(True) }
-
-  env.get("DOES_NOT_EXIST", parser: always_true)
-  |> expect.to_be_error
-  |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+          env.get("DOES_NOT_EXIST", parser: always_true)
+          |> expect.to_be_error
+          |> expect.to_equal(NotFound("DOES_NOT_EXIST"))
+        }),
+      ]),
+    ]),
+  ])
 }
