@@ -67,7 +67,7 @@ pub fn get_float(name: String) -> Result(Float, Error) {
 /// - `y`
 /// - `1`
 ///
-/// The following values are pased as `False`:
+/// The following values are parsed as `False`:
 /// - `false`
 /// - `f`
 /// - `no`
