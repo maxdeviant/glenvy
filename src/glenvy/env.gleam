@@ -1,5 +1,6 @@
 //// Strongly-typed access to environment variables.
 
+import gleam/dict.{type Dict}
 import gleam/float
 import gleam/int
 import gleam/result.{try}
@@ -12,6 +13,11 @@ pub type Error {
   NotFound(name: String)
   /// The environment variable with the given name failed to parse.
   FailedToParse(name: String)
+}
+
+/// Returns all of the available environment variables for the current process.
+pub fn get_all() -> Dict(String, String) {
+  os.get_all_env()
 }
 
 /// Returns the value for the environment variable with the given name as a `String`.

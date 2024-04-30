@@ -1,15 +1,10 @@
 import gleam/dict
-import gleam/list
 import glenvy/dotenv
 import glenvy/internal/os
 import simplifile
 import startest.{describe, it}
 import startest/expect
-
-fn reset_env(keys: List(String)) {
-  keys
-  |> list.each(os.unset_env(_))
-}
+import test_utils.{reset_env}
 
 pub fn dotenv_nonexistent_file_test() {
   dotenv.load_from(path: "definitely_does_not_exist.env")

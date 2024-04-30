@@ -1,8 +1,42 @@
+import gleam/dict
 import gleam/list
 import glenvy/env.{FailedToParse, NotFound}
 import glenvy/internal/os
 import startest.{describe, it}
 import startest/expect
+import test_utils.{reset_all_env}
+
+pub fn get_all_tests() {
+  describe("glenvy/env", [
+    describe("get_all", [
+      it("returns all the available environment variables", fn() {
+        reset_all_env()
+
+        os.set_env("A_STRING", "hello, world")
+        os.set_env("AN_INT", "1")
+        os.set_env("A_BOOL", "false")
+
+        env.get_all()
+        |> expect.to_equal(
+          [
+            #("A_STRING", "hello, world"),
+            #("AN_INT", "1"),
+            #("A_BOOL", "false"),
+          ]
+          |> dict.from_list,
+        )
+      }),
+      describe("when no environment variables are set", [
+        it("returns an empty `Dict`", fn() {
+          reset_all_env()
+
+          env.get_all()
+          |> expect.to_equal(dict.new())
+        }),
+      ]),
+    ]),
+  ])
+}
 
 pub fn get_string_tests() {
   describe("glenvy/env", [

@@ -1,6 +1,10 @@
-import { Ok, Error } from "./gleam.mjs";
+import { Ok, Error, toList } from "./gleam.mjs";
 
 const Nil = undefined;
+
+export function get_all_env() {
+  return toList(Object.entries(process.env))
+}
 
 export function get_env(name) {
   const value = process.env[name];
