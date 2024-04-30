@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `glenvy/env`
   - Added an `Error` type.
+- `glenvy/dotenv`
+  - Added `read_from` for reading the contents of a `.env` file into memory ([#4](https://github.com/maxdeviant/glenvy/issues/4)).
 
 ### Changed
 

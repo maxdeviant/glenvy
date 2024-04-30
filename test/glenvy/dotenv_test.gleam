@@ -1,7 +1,9 @@
+import gleam/dict
 import gleam/list
 import glenvy/dotenv
 import glenvy/internal/os
 import simplifile
+import startest.{describe, it}
 import startest/expect
 
 fn reset_env(keys: List(String)) {
@@ -65,4 +67,31 @@ pub fn dotenv_equals_in_value_env_test() {
   os.get_env("KEY_2")
   |> expect.to_be_ok
   |> expect.to_equal("2")
+}
+
+pub fn read_from_tests() {
+  describe("glenvy/dotenv", [
+    describe("read_from", [
+      describe("given a path to a simple .env file", [
+        it("returns the environment variables in that file", fn() {
+          dotenv.read_from(path: "test/fixtures/simple.env")
+          |> expect.to_be_ok
+          |> expect.to_equal(
+            [#("KEY", "1"), #("KEY_2", "value")]
+            |> dict.from_list,
+          )
+        }),
+      ]),
+      describe("given a path to .env file with Windows line endings", [
+        it("returns the environment variables in that file", fn() {
+          dotenv.read_from(path: "test/fixtures/simple_windows.env")
+          |> expect.to_be_ok
+          |> expect.to_equal(
+            [#("KEY", "1"), #("KEY_2", "value")]
+            |> dict.from_list,
+          )
+        }),
+      ]),
+    ]),
+  ])
 }
