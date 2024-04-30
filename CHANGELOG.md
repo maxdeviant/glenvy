@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `glenvy/env`
   - Added an `Error` type.
-  - Added `get_all` for retrieving all of the available environment variables.
+  - Added `get_all` for retrieving all of the available environment variables ([#5](https://github.com/maxdeviant/glenvy/issues/5)).
 - `glenvy/dotenv`
   - Added `read_from` for reading the contents of a `.env` file into memory ([#4](https://github.com/maxdeviant/glenvy/issues/4)).
 
