@@ -31,7 +31,3 @@ pub fn main() {
   Ok(Nil)
 }
 ```
-
-## Targets
-
-`glenvy` supports both targets: Erlang and JavaScript.
