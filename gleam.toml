@@ -11,4 +11,4 @@ nibble = "~> 1.1"
 simplifile = "~> 1.7"
 
 [dev-dependencies]
-startest = ">= 0.2.0 and < 1.0.0"
+startest = ">= 0.2.2 and < 1.0.0"
