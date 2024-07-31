@@ -147,40 +147,40 @@ pub fn get_bool_tests() {
         "with truthy values",
         true_values
           |> list.map(fn(value) {
-          it("returns True for \"" <> value <> "\"", fn() {
-            os.set_env("A_BOOL", value)
+            it("returns True for \"" <> value <> "\"", fn() {
+              os.set_env("A_BOOL", value)
 
-            env.get_bool("A_BOOL")
-            |> expect.to_be_ok
-            |> expect.to_equal(True)
-          })
-        }),
+              env.get_bool("A_BOOL")
+              |> expect.to_be_ok
+              |> expect.to_equal(True)
+            })
+          }),
       ),
       describe(
         "with falsy values",
         false_values
           |> list.map(fn(value) {
-          it("returns False for \"" <> value <> "\"", fn() {
-            os.set_env("A_BOOL", value)
+            it("returns False for \"" <> value <> "\"", fn() {
+              os.set_env("A_BOOL", value)
 
-            env.get_bool("A_BOOL")
-            |> expect.to_be_ok
-            |> expect.to_equal(False)
-          })
-        }),
+              env.get_bool("A_BOOL")
+              |> expect.to_be_ok
+              |> expect.to_equal(False)
+            })
+          }),
       ),
       describe(
         "with indeterminate values",
         indeterminate_values
           |> list.map(fn(value) {
-          it("returns a `FailedToParse` error for \"" <> value <> "\"", fn() {
-            os.set_env("AN_INDETERMINATE_VALUE", value)
+            it("returns a `FailedToParse` error for \"" <> value <> "\"", fn() {
+              os.set_env("AN_INDETERMINATE_VALUE", value)
 
-            env.get_bool("AN_INDETERMINATE_VALUE")
-            |> expect.to_be_error
-            |> expect.to_equal(FailedToParse("AN_INDETERMINATE_VALUE"))
-          })
-        }),
+              env.get_bool("AN_INDETERMINATE_VALUE")
+              |> expect.to_be_error
+              |> expect.to_equal(FailedToParse("AN_INDETERMINATE_VALUE"))
+            })
+          }),
       ),
       describe("when the environment variable does not exist", [
         it("returns a `NotFound` error", fn() {
