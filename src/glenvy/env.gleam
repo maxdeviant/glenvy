@@ -30,10 +30,10 @@ pub fn get_string(name: String) -> Result(String, Error) {
 ///
 /// Uses the provided `parser` to parse the value.
 ///
-/// Returns `Error(FailedToParse)` if the provided `parser` returns an error. 
+/// Returns `Error(FailedToParse)` if the provided `parser` returns an error.
 pub fn get(
   name: String,
-  parser parse: fn(String) -> Result(a, b),
+  parser parse: fn(String) -> Result(a, err),
 ) -> Result(a, Error) {
   use value <- try(get_string(name))
 
