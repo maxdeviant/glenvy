@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `glenvy/env`
+  - The parsing function passed to `get` now accepts any error type in the `Result`.
+
 ## [1.0.1] - 2024-07-31
 
 ### Changed
