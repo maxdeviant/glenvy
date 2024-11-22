@@ -18,12 +18,12 @@ pub fn parse_env_file(contents: String) -> Dict(String, String) {
 fn try_parse_env_file(contents: String) -> Result(Dict(String, String), Nil) {
   use tokens <- try(
     lexer.tokenize(contents)
-    |> result.nil_error,
+    |> result.replace_error(Nil),
   )
 
   tokens
   |> nibble.run(env_file_parser())
-  |> result.nil_error
+  |> result.replace_error(Nil)
 }
 
 fn env_file_parser() -> Parser(Dict(String, String), TokenKind, a) {

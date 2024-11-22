@@ -9,7 +9,7 @@ pub fn lexer_tokenize_simple_key_value_pair_test() {
 KEY=1
 KEY_2=value
     "
-    |> string.trim_left
+    |> string.trim_start
 
   lexer.tokenize(env_file)
   |> expect.to_be_ok
@@ -33,7 +33,7 @@ KEY=1
 KEY_2=value # This is also a comment.
 #KEY_3='3'
     "
-    |> string.trim_left
+    |> string.trim_start
 
   lexer.tokenize(env_file)
   |> expect.to_be_ok
@@ -57,7 +57,7 @@ pub fn lexer_tokenize_quoted_values_test() {
 SINGLE_QUOTE='1'
 DOUBLE_QUOTE=\"2\"
     "
-    |> string.trim_left
+    |> string.trim_start
 
   lexer.tokenize(env_file)
   |> expect.to_be_ok
@@ -78,7 +78,7 @@ pub fn lexer_tokenize_export_as_key_test() {
     "
 export=\"export as key\"
     "
-    |> string.trim_left
+    |> string.trim_start
 
   lexer.tokenize(env_file)
   |> expect.to_be_ok
@@ -95,7 +95,7 @@ pub fn lexer_tokenize_export_test() {
     "
 export   SHELL_LOVER=1
     "
-    |> string.trim_left
+    |> string.trim_start
 
   lexer.tokenize(env_file)
   |> expect.to_be_ok
@@ -113,7 +113,7 @@ pub fn lexer_tokenize_exported_export_as_key_test() {
     "
 export export='exported export as key'
     "
-    |> string.trim_left
+    |> string.trim_start
 
   lexer.tokenize(env_file)
   |> expect.to_be_ok
