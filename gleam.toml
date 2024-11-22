@@ -5,8 +5,8 @@ licenses = ["MIT"]
 repository = { type = "github", user = "maxdeviant", repo = "glenvy" }
 
 [dependencies]
-gleam_stdlib = ">= 0.36.0 and < 2.0.0"
 gleam_erlang = ">= 0.25.0 and < 1.0.0"
+gleam_stdlib = ">= 0.36.0 and < 2.0.0"
 nibble = ">= 1.1.0 and < 2.0.0"
 simplifile = ">= 2.0.0 and < 3.0.0"
 
