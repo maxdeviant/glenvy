@@ -1,26 +1,20 @@
 import gleam/dict.{type Dict}
-@target(erlang)
-import gleam/erlang/os
 
 @target(erlang)
-pub fn get_all_env() -> Dict(String, String) {
-  os.get_all_env()
-}
+@external(erlang, "glenvy_ffi", "get_all_env")
+pub fn get_all_env() -> Dict(String, String)
 
 @target(erlang)
-pub fn get_env(name: String) -> Result(String, Nil) {
-  os.get_env(name)
-}
+@external(erlang, "glenvy_ffi", "get_env")
+pub fn get_env(name: String) -> Result(String, Nil)
 
 @target(erlang)
-pub fn set_env(name: String, value: String) -> Nil {
-  os.set_env(name, value)
-}
+@external(erlang, "glenvy_ffi", "set_env")
+pub fn set_env(name: String, value: String) -> Nil
 
 @target(erlang)
-pub fn unset_env(name: String) -> Nil {
-  os.unset_env(name)
-}
+@external(erlang, "glenvy_ffi", "unset_env")
+pub fn unset_env(name: String) -> Nil
 
 @target(javascript)
 pub fn get_all_env() -> Dict(String, String) {
