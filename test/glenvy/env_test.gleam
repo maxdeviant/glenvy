@@ -1,7 +1,7 @@
+import envoy
 import gleam/dict
 import gleam/list
 import glenvy/env.{FailedToParse, NotFound}
-import glenvy/internal/os
 import startest.{describe, it}
 import startest/expect
 import test_utils.{reset_all_env}
@@ -12,9 +12,9 @@ pub fn get_all_tests() {
       it("returns all the available environment variables", fn() {
         reset_all_env()
 
-        os.set_env("A_STRING", "hello, world")
-        os.set_env("AN_INT", "1")
-        os.set_env("A_BOOL", "false")
+        envoy.set("A_STRING", "hello, world")
+        envoy.set("AN_INT", "1")
+        envoy.set("A_BOOL", "false")
 
         env.get_all()
         |> expect.to_equal(
@@ -42,7 +42,7 @@ pub fn get_string_tests() {
   describe("glenvy/env", [
     describe("get_string", [
       it("returns the environment variable with the specified name", fn() {
-        os.set_env("A_STRING", "hello, world")
+        envoy.set("A_STRING", "hello, world")
 
         env.get_string("A_STRING")
         |> expect.to_be_ok
@@ -64,7 +64,7 @@ pub fn get_int_tests() {
     describe("get_int", [
       describe("when the environment variable has an integer value", [
         it("returns the integer value", fn() {
-          os.set_env("AN_INT", "42")
+          envoy.set("AN_INT", "42")
 
           env.get_int("AN_INT")
           |> expect.to_be_ok
@@ -73,7 +73,7 @@ pub fn get_int_tests() {
       ]),
       describe("when the environment variable has a string value", [
         it("returns a `FailedToParse` error", fn() {
-          os.set_env("AN_INT", "not an int")
+          envoy.set("AN_INT", "not an int")
 
           env.get_int("AN_INT")
           |> expect.to_be_error
@@ -96,7 +96,7 @@ pub fn get_float_tests() {
     describe("get_float", [
       describe("when the environment variable has a float value", [
         it("returns the float value", fn() {
-          os.set_env("A_FLOAT", "37.89")
+          envoy.set("A_FLOAT", "37.89")
 
           env.get_float("A_FLOAT")
           |> expect.to_be_ok
@@ -105,7 +105,7 @@ pub fn get_float_tests() {
       ]),
       describe("when the environment variable has an integer value", [
         it("returns a `FailedToParse` error", fn() {
-          os.set_env("A_FLOAT", "29")
+          envoy.set("A_FLOAT", "29")
 
           env.get_float("A_FLOAT")
           |> expect.to_be_error
@@ -114,7 +114,7 @@ pub fn get_float_tests() {
       ]),
       describe("when the environment variable has a string value", [
         it("returns a `FailedToparse` error", fn() {
-          os.set_env("A_FLOAT", "not a float")
+          envoy.set("A_FLOAT", "not a float")
 
           env.get_float("A_FLOAT")
           |> expect.to_be_error
@@ -148,7 +148,7 @@ pub fn get_bool_tests() {
         true_values
           |> list.map(fn(value) {
             it("returns True for \"" <> value <> "\"", fn() {
-              os.set_env("A_BOOL", value)
+              envoy.set("A_BOOL", value)
 
               env.get_bool("A_BOOL")
               |> expect.to_be_ok
@@ -161,7 +161,7 @@ pub fn get_bool_tests() {
         false_values
           |> list.map(fn(value) {
             it("returns False for \"" <> value <> "\"", fn() {
-              os.set_env("A_BOOL", value)
+              envoy.set("A_BOOL", value)
 
               env.get_bool("A_BOOL")
               |> expect.to_be_ok
@@ -174,7 +174,7 @@ pub fn get_bool_tests() {
         indeterminate_values
           |> list.map(fn(value) {
             it("returns a `FailedToParse` error for \"" <> value <> "\"", fn() {
-              os.set_env("AN_INDETERMINATE_VALUE", value)
+              envoy.set("AN_INDETERMINATE_VALUE", value)
 
               env.get_bool("AN_INDETERMINATE_VALUE")
               |> expect.to_be_error
@@ -202,7 +202,7 @@ pub fn get_tests() {
     describe("get", [
       describe("with a parser returning a custom type", [
         it("returns the custom type", fn() {
-          os.set_env("API_KEY", "secret_1234")
+          envoy.set("API_KEY", "secret_1234")
 
           env.get("API_KEY", parser: fn(value) { Ok(ApiKey(value)) })
           |> expect.to_be_ok
@@ -211,7 +211,7 @@ pub fn get_tests() {
       ]),
       describe("with a parser returning True", [
         it("returns True", fn() {
-          os.set_env("A_BOOL", "any value")
+          envoy.set("A_BOOL", "any value")
 
           env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
           |> expect.to_be_ok
@@ -220,7 +220,7 @@ pub fn get_tests() {
       ]),
       describe("with a parser returning False", [
         it("returns False", fn() {
-          os.set_env("A_BOOL", "another value")
+          envoy.set("A_BOOL", "another value")
 
           env.get("A_BOOL", parser: fn(value) { Ok(value == "any value") })
           |> expect.to_be_ok

@@ -1,6 +1,6 @@
+import envoy
 import gleam/dict
 import glenvy/dotenv
-import glenvy/internal/os
 import simplifile
 import startest.{describe, it}
 import startest/expect
@@ -17,11 +17,11 @@ pub fn dotenv_simple_env_test() {
 
   let assert Ok(Nil) = dotenv.load_from(path: "test/fixtures/simple.env")
 
-  os.get_env("KEY")
+  envoy.get("KEY")
   |> expect.to_be_ok
   |> expect.to_equal("1")
 
-  os.get_env("KEY_2")
+  envoy.get("KEY_2")
   |> expect.to_be_ok
   |> expect.to_equal("value")
 }
@@ -32,11 +32,11 @@ pub fn dotenv_simple_windows_env_test() {
   let assert Ok(Nil) =
     dotenv.load_from(path: "test/fixtures/simple_windows.env")
 
-  os.get_env("KEY")
+  envoy.get("KEY")
   |> expect.to_be_ok
   |> expect.to_equal("1")
 
-  os.get_env("KEY_2")
+  envoy.get("KEY_2")
   |> expect.to_be_ok
   |> expect.to_equal("value")
 }
@@ -47,19 +47,19 @@ pub fn dotenv_equals_in_value_env_test() {
   let assert Ok(Nil) =
     dotenv.load_from(path: "test/fixtures/equals_in_value.env")
 
-  os.get_env("KEY")
+  envoy.get("KEY")
   |> expect.to_be_ok
   |> expect.to_equal("1")
 
-  os.get_env("TRAILING_EQ")
+  envoy.get("TRAILING_EQ")
   |> expect.to_be_ok
   |> expect.to_equal("YmFkIHZhbHVlIQ==")
 
-  os.get_env("STARTING_EQ")
+  envoy.get("STARTING_EQ")
   |> expect.to_be_ok
   |> expect.to_equal("=foobar")
 
-  os.get_env("KEY_2")
+  envoy.get("KEY_2")
   |> expect.to_be_ok
   |> expect.to_equal("2")
 }

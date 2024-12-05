@@ -1,9 +1,9 @@
 //// Support for `.env` files.
 
+import envoy
 import gleam/dict.{type Dict}
 import gleam/list
 import gleam/result.{try}
-import glenvy/internal/os
 import glenvy/internal/parser
 import simplifile
 
@@ -27,7 +27,7 @@ pub fn load_from(path filepath: String) -> Result(Nil, Error) {
   |> list.each(fn(env_var) {
     let #(key, value) = env_var
 
-    os.set_env(key, value)
+    envoy.set(key, value)
   })
 
   Ok(Nil)

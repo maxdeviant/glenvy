@@ -1,11 +1,11 @@
 //// Strongly-typed access to environment variables.
 
+import envoy
 import gleam/dict.{type Dict}
 import gleam/float
 import gleam/int
 import gleam/result.{try}
 import gleam/string
-import glenvy/internal/os
 
 /// An error that occurred while reading an environment variable.
 pub type Error {
@@ -17,12 +17,12 @@ pub type Error {
 
 /// Returns all of the available environment variables for the current process.
 pub fn get_all() -> Dict(String, String) {
-  os.get_all_env()
+  envoy.all()
 }
 
 /// Returns the value for the environment variable with the given name as a `String`.
 pub fn get_string(name: String) -> Result(String, Error) {
-  os.get_env(name)
+  envoy.get(name)
   |> result.map_error(fn(_) { NotFound(name) })
 }
 
