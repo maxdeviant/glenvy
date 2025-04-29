@@ -16,12 +16,12 @@ pub type Error {
 }
 
 /// Returns all of the available environment variables for the current process.
-pub fn get_all() -> Dict(String, String) {
+pub fn all() -> Dict(String, String) {
   os.get_all_env()
 }
 
 /// Returns the value for the environment variable with the given name as a `String`.
-pub fn get_string(name: String) -> Result(String, Error) {
+pub fn string(name: String) -> Result(String, Error) {
   os.get_env(name)
   |> result.map_error(fn(_) { NotFound(name) })
 }
@@ -31,11 +31,11 @@ pub fn get_string(name: String) -> Result(String, Error) {
 /// Uses the provided `parser` to parse the value.
 ///
 /// Returns `Error(FailedToParse)` if the provided `parser` returns an error.
-pub fn get(
+pub fn parse(
   name: String,
   parser parse: fn(String) -> Result(a, err),
 ) -> Result(a, Error) {
-  use value <- try(get_string(name))
+  use value <- try(string(name))
 
   value
   |> parse
@@ -45,17 +45,17 @@ pub fn get(
 /// Returns the value for the environment variable with the given name as an `Int`.
 ///
 /// Returns `Error(FailedToParse)` if the environment variable cannot be parsed as an `Int`.
-pub fn get_int(name: String) -> Result(Int, Error) {
+pub fn int(name: String) -> Result(Int, Error) {
   name
-  |> get(parser: int.parse)
+  |> parse(parser: int.parse)
 }
 
 /// Returns the value for the environment variable with the given name as a `Float`.
 ///
 /// Returns `Error(FailedToParse)` if the environment variable cannot be parsed as a `Float`.
-pub fn get_float(name: String) -> Result(Float, Error) {
+pub fn float(name: String) -> Result(Float, Error) {
   name
-  |> get(parser: float.parse)
+  |> parse(parser: float.parse)
 }
 
 /// Returns the value for the environment variable with the given name as a `Bool`.
@@ -79,7 +79,7 @@ pub fn get_float(name: String) -> Result(Float, Error) {
 /// Returns `Error(FailedToParse)` if the environment variable cannot be parsed as a `Bool`.
 ///
 /// Use `get` if you want to provide your own parser.
-pub fn get_bool(name: String) -> Result(Bool, Error) {
+pub fn bool(name: String) -> Result(Bool, Error) {
   let parse_bool = fn(value) {
     let value =
       value
@@ -93,5 +93,5 @@ pub fn get_bool(name: String) -> Result(Bool, Error) {
   }
 
   name
-  |> get(parser: parse_bool)
+  |> parse(parser: parse_bool)
 }

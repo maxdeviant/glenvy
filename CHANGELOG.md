@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changes
+
+- `glenvy/env`
+  - Renamed `get` to `parse`.
+  - Renamed `get_all` to `all`.
+  - Renamed `get_bool` to `bool`.
+  - Renamed `get_float` to `float`.
+  - Renamed `get_int` to `int`.
+  - Renamed `get_string` to `string`.
+
 ## [1.2.0] - 2024-12-05
 
 ### Changes
