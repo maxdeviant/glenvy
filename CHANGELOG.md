@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2025-05-03
 
-### Changes
+### Changed
 
 - `glenvy/env`
   - Renamed `get` to `parse`.
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.0] - 2024-12-05
 
-### Changes
+### Changed
 
 - Upgraded `gleam_erlang` to v0.33.0.
 
