@@ -24,7 +24,7 @@ import glenvy/env
 pub fn main() {
   let _ = dotenv.load()
 
-  use hello <- try(env.get_string("HELLO"))
+  use hello <- try(env.string("HELLO"))
 
   io.println("HELLO=" <> hello)
 
