@@ -1,5 +1,5 @@
 name = "glenvy"
-version = "1.2.0"
+version = "2.0.0"
 description = "A pleasant way to interact with your environment variables."
 licenses = ["MIT"]
 repository = { type = "github", user = "maxdeviant", repo = "glenvy" }
