@@ -10,5 +10,5 @@ pub fn reset_all_env() {
 
 pub fn reset_env(keys: List(String)) {
   keys
-  |> list.each(os.unset_env(_))
+  |> list.each(os.unset_env)
 }
